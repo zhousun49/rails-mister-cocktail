@@ -1,0 +1,10 @@
+<%= simple_form_for [@cocktail, @dose] do |f| %>
+<p>Enter the Number of Doses in description:</p>
+  <%= f.input :description %>
+  <% arr = [] %>
+  <% @ingredients.each do |i| %>
+  <% arr.push(i.name) %>
+  <% end %>
+  <%= f.input :ingredient_id, collection: arr, as: :select%>
+  <p style="text-align: center; margin-top: 2%;"><%= f.submit class: "btn btn-primary"%></p>
+<% end %>

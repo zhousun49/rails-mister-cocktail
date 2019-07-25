@@ -5,13 +5,37 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-Ingredient.destroy_all if Rails.env.development?
+
+# Ingredient.destroy_all if Rails.env.development?
+# Cocktail.destroy_all if Rails.env.development?
+
 require 'json'
 require 'open-uri'
 
-url = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list'
-ingredient = JSON.parse(open(url).read)
-ingredient['drinks'].each do |e|
-  Ingredient.create(name: e['strIngredient1'])
+url = 'https://raw.githubusercontent.com/maltyeva/iba-cocktails/master/recipes.json'
+cocktail = JSON.parse(open(url).read)
+ing_array = []
+cocktail.each do |e|
+  # p e['name']
+  e['ingredients'].each do |i|
+    ing_array.push(i['ingredient']) if i['ingredient'].nil? == false
+  end
+  Cocktail.create(name: e['name'])
 end
-p "created ingredients"
+
+ingredient_arr = ing_array.uniq
+ingredient_arr.each do |i|
+  Ingredient.create(name: i)
+end
+p "created no replicates ingredients"
+
+cocktail.each do |e|
+  c = Cocktail.find_by(name: e['name'])
+  e['ingredients'].each do |d|
+    if d['amount'].nil? == false && d['ingredient'].nil? == false
+      Dose.create(description: d['amount'], cocktail_id: c.id, ingredient_id: Ingredient.find_by(name: d['ingredient']).id)
+    end
+  end
+end
+
+p "created doses"

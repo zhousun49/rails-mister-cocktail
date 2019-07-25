@@ -1,0 +1,7 @@
+<h1 style="text-align: center;"><%= @cocktail.name %></h1>
+<h3 style="text-align: center; margin-top: 2%">Doses and ingredients</h3>
+<% @cocktail.doses.each do |dose| %>
+<p style="text-align: center; margin-top: 2%;"><%= dose['description'] %> cl of <%= dose.ingredient['name'] %><%= link_to "Delete", dose_path("#{dose.id}"), method: :delete, data: {confirm: "Sure ?"} %></p>
+<% end %>
+
+<p style="text-align: center; margin-top: 2%;"><%= link_to 'More', new_cocktail_dose_path(@cocktail), class: "btn btn-primary" %></p>
