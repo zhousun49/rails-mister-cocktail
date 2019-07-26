@@ -1,5 +1,13 @@
+
 <h1 style="text-align: center">Here is the list of Cocktails</h1>
-<% @cocktails.each do |c| %>
-<p style="text-align: center; margin-top: 2%"><%=link_to c.name, cocktail_path(c) %></p>
-<% end %>
-<p style="text-align: center; margin-top: 2%"><%= link_to "Create a New Cocktail", new_cocktail_path, class: "btn btn-primary" %></p>
+<div class="container padding-1">
+  <div class="row">
+    <% @cocktails.each do |c| %>
+    <div class="col-4 card">
+      <%= image_tag c.img %>
+      <p style="text-align: center; margin-top: 2%"><%=link_to c.name, cocktail_path(c) %></p>
+    </div>
+      <% end %>
+  </div>
+</div>
+    <p style="text-align: center; margin-top: 2%"><%= link_to "Create a New Cocktail", new_cocktail_path, class: "btn btn-primary" %></p>
